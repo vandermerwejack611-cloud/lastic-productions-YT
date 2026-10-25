@@ -34,7 +34,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential git zip unzip autoconf automake libtool \
-          pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev \
+          pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libltdl-dev \
           libssl-dev ffmpeg ccache wget curl
 
     - name: Install Buildozer
@@ -43,11 +43,8 @@ jobs:
         python -m pip install buildozer cython
 
     - name: Build APK
-      env:
-        ANDROID_SDK_ROOT: $HOME/.buildozer/android/platform/android-sdk
-        ANDROID_HOME: $HOME/.buildozer/android/platform/android-sdk
       run: |
-        yes | buildozer android update sdk --accept-licenses --filter platform-tools,platforms;android-33,build-tools;33.0.2,extras;android;m2repository,extras;google;m2repository,ndk;25.2.9519653 || true
+        yes | buildozer android update sdk --accept-licenses --filter "platform-tools,platforms;android-33,build-tools;33.0.2,extras;android;m2repository,extras;google;m2repository,ndk;25.2.9519653"
         buildozer -v android debug
 
     - name: Upload APK artifact
